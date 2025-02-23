@@ -1,21 +1,14 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+
+// controllers
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Admin\AdminController;
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+use App\Http\Controllers\Admin\ProductController;
 
 ///// USER ROUTES /////
 
@@ -54,8 +47,8 @@ Route::middleware('auth')->group(function () {
     Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
         Route::get('/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
     
-    //  //products routes 
-    //  Route::get('/products', [ProductController::class, 'index'])->name('admin.products.index');
+        //products routes 
+        Route::get('/products', [ProductController::class, 'index'])->name('admin.products.index');
     //  Route::post('/products/store',[ProductController::class,'store'])->name('admin.products.store');
     //  Route::put('/products/update/{id}',[ProductController::class,'update'])->name('admin.products.update');
     //  Route::delete('/products/image/{id}',[ProductController::class,'deleteImage'])->name('admin.products.image.delete');
