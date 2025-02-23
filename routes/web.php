@@ -22,8 +22,20 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
+    return Inertia::render('User/Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::get('/products', function () {
+    return Inertia::render('User/Products'); // Ensure this matches your component's path
+})->middleware(['auth', 'verified'])->name('products');
+
+Route::get('/cart', function () {
+    return Inertia::render('User/Cart'); // This should match the name of your Cart.vue component
+})->middleware(['auth', 'verified'])->name('cart');
+
+Route::get('/purchases', function () {
+    return Inertia::render('User/Purchases'); // Ensure this matches your component's path
+})->middleware(['auth', 'verified'])    ->name('purchases');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
