@@ -79,7 +79,7 @@ const filterOptions = [
   { value: 'Pending', label: 'Pending' },
   { value: 'To Receive', label: 'To Receive' },
   { value: 'Completed', label: 'Completed' },
-  { value: 'Cancelled', label: 'Cancelled' }, // Added Cancelled status
+  { value: 'Cancelled', label: 'Cancelled' },
 ];
 </script>
 
@@ -95,20 +95,26 @@ const filterOptions = [
       <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
           <div class="p-6">
-            <!-- Filter Tabs -->
-            <div class="flex space-x-4 mb-6 border-b">
+            <!-- Filter Tabs with Animation -->
+            <div class="flex space-x-4 mb-6 border-b relative">
               <button
                 v-for="option in filterOptions"
                 :key="option.value"
                 @click="selectedFilter = option.value"
+                class="py-2 px-4 text-sm font-medium transition-colors duration-300 ease-in-out relative"
                 :class="[
-                  'py-2 px-4 text-sm font-medium',
                   selectedFilter === option.value
-                    ? 'text-blue-600 border-b-2 border-blue-600'
-                    : 'text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                    ? 'text-blue-600'
+                    : 'text-gray-500 hover:text-gray-700'
                 ]"
               >
                 {{ option.label }}
+                <transition name="slide">
+                  <span
+                    v-if="selectedFilter === option.value"
+                    class="absolute bottom-0 left-0 w-full h-0.5 bg-blue-600"
+                  ></span>
+                </transition>
               </button>
             </div>
 
@@ -159,3 +165,15 @@ const filterOptions = [
     />
   </AuthenticatedLayout>
 </template>
+
+<style scoped>
+.slide-enter-active,
+.slide-leave-active {
+  transition: all 0.3s ease;
+}
+.slide-enter-from,
+.slide-leave-to {
+  transform: translateX(10px);
+  opacity: 0;
+}
+</style>
