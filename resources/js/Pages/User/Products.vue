@@ -70,6 +70,14 @@ const filteredProducts = computed(() => {
   });
 });
 
+// Function to format currency in PHP
+const formatCurrency = (amount) => {
+  return new Intl.NumberFormat('en-PH', {
+    style: 'currency',
+    currency: 'PHP',
+  }).format(amount);
+};
+
 const addToCart = (product) => {
   // Implement add to cart functionality
   console.log('Added to cart:', product);
@@ -110,7 +118,7 @@ const buyNow = (product) => {
                 <img :src="product.image" :alt="product.name" class="w-full h-48 object-cover" />
                 <div class="p-4">
                   <h4 class="font-semibold text-lg mb-2">{{ product.name }}</h4>
-                  <p class="text-gray-600 mb-2">${{ product.price.toFixed(2) }}</p>
+                  <p class="text-gray-600 mb-2">{{ formatCurrency(product.price) }}</p>
                   <p class="text-sm text-gray-500 mb-4">{{ product.description }}</p>
                   <div class="flex space-x-2">
                     <button @click="addToCart(product)" class="flex-1 bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300">

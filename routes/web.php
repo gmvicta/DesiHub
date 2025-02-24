@@ -35,7 +35,11 @@ Route::get('/cart', function () {
 
 Route::get('/purchases', function () {
     return Inertia::render('User/Purchases'); // Ensure this matches your component's path
-})->middleware(['auth', 'verified'])    ->name('purchases');
+})->middleware(['auth', 'verified'])->name('purchases');
+
+Route::get('/checkout', function () {
+    return Inertia::render('User/Checkout'); // This should match your Checkout.vue component
+})->middleware(['auth', 'verified'])->name('checkout');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -49,24 +53,24 @@ Route::middleware('auth')->group(function () {
 
 // ADMIN ROUTES
 
-    Route::group(['prefix' => 'admin', 'middleware' => 'redirectAdmin'], function () {
-        Route::get('login', [AdminAuthController::class, 'showLoginForm'])->name('admin.login');
-        Route::post('login', [AdminAuthController::class, 'login'])->name('admin.login.post');
-        Route::post('logout', [AdminAuthController::class, 'logout'])->name('logout');
-    });
+Route::group(['prefix' => 'admin', 'middleware' => 'redirectAdmin'], function () {
+    Route::get('login', [AdminAuthController::class, 'showLoginForm'])->name('admin.login');
+    Route::post('login', [AdminAuthController::class, 'login'])->name('admin.login.post');
+    Route::post('logout', [AdminAuthController::class, 'logout'])->name('logout');
+});
 
-    //admin middleware
-    Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
-        Route::get('/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
-    
-        //products routes 
-        Route::get('/products', [ProductController::class, 'index'])->name('admin.products.index');
+//admin middleware
+Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
+    Route::get('/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+
+    //products routes 
+    Route::get('/products', [ProductController::class, 'index'])->name('admin.products.index');
     //  Route::post('/products/store',[ProductController::class,'store'])->name('admin.products.store');
     //  Route::put('/products/update/{id}',[ProductController::class,'update'])->name('admin.products.update');
     //  Route::delete('/products/image/{id}',[ProductController::class,'deleteImage'])->name('admin.products.image.delete');
     //  Route::delete('/products/destory/{id}',[ProductController::class,'destory'])->name('admin.products.destory');
-        
-    });
+
+});
 
 
 // //user rotues
@@ -117,4 +121,4 @@ Route::middleware('auth')->group(function () {
 // 
 // 
 // //end
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

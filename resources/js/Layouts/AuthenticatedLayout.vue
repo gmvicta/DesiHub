@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted, onUnmounted } from 'vue';
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
@@ -8,6 +8,33 @@ import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import { Link } from '@inertiajs/vue3';
 
 const showingNavigationDropdown = ref(false);
+const showingNotificationDropdown = ref(false);
+
+// Example notifications
+const notifications = ref([
+    { id: 1, message: 'Your order has been shipped!', date: '2023-10-01' },
+    { id: 2, message: 'New product added to your wishlist.', date: '2023-10-05' },
+    { id: 3, message: 'Your profile has been updated.', date: '2023-10-10' },
+]);
+
+const toggleNotificationDropdown = () => {
+    showingNotificationDropdown.value = !showingNotificationDropdown.value;
+};
+
+// Close dropdown when clicking outside
+const closeNotificationDropdown = (event) => {
+    if (!event.target.closest('.notification-dropdown')) {
+        showingNotificationDropdown.value = false;
+    }
+};
+
+onMounted(() => {
+    document.addEventListener('click', closeNotificationDropdown);
+});
+
+onUnmounted(() => {
+    document.removeEventListener('click', closeNotificationDropdown);
+});
 </script>
 
 <template>
@@ -38,10 +65,38 @@ const showingNavigationDropdown = ref(false);
 
                         <div class="hidden sm:flex sm:items-center sm:ms-6">
                             <!-- Clickable Cart Indicator -->
-                            <div class="mr-4">
+                            <div class="mr-4 flex items-center">
                                 <Link :href="route('cart')" class="text-gray-500 hover:text-gray-700">
                                     Cart (0) <!-- Placeholder for cart count -->
                                 </Link>
+                                <!-- Notification Dropdown -->
+                                <div class="ml-2 relative notification-dropdown">
+                                    <span @click="toggleNotificationDropdown" class="text-sm text-red-500 cursor-pointer">
+                                        Notifications
+                                    </span>
+                                    <transition
+                                        enter-active-class="transition ease-out duration-200"
+                                        enter-from-class="transform opacity-0 scale-95"
+                                        enter-to-class="transform opacity-100 scale-100"
+                                        leave-active-class="transition ease-in duration-75"
+                                        leave-from-class="transform opacity-100 scale-100"
+                                        leave-to-class="transform opacity-0 scale-95"
+                                    >
+                                        <div v-if="showingNotificationDropdown" class="absolute right-0 mt-2 w-64 bg-white border border-gray-200 rounded-md shadow-lg z-10">
+                                            <div class="py-2">
+                                                <div v-if="notifications.length === 0" class="px-4 py-2 text-gray-500">
+                                                    No notifications.
+                                                </div>
+                                                <div v-else>
+                                                    <div v-for="notification in notifications" :key="notification.id" class="px-4 py-2 text-gray-800 hover:bg-gray-100">
+                                                        <p class="text-sm">{{ notification.message }}</p>
+                                                        <p class="text-xs text-gray-500">{{ notification.date }}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </transition>
+                                </div>
                             </div>
 
                             <!-- Settings Dropdown -->
@@ -85,7 +140,7 @@ const showingNavigationDropdown = ref(false);
                                         hidden: showingNavigationDropdown,
                                         'inline-flex': !showingNavigationDropdown,
                                     }" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M4 6h16M4 12 h16M4 18h16" />
+                                        d="M4 6h16M4 12h16M4 18h16" />
                                     <path :class="{
                                         hidden: !showingNavigationDropdown,
                                         'inline-flex': showingNavigationDropdown,
