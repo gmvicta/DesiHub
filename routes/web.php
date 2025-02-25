@@ -41,6 +41,17 @@ Route::get('/checkout', function () {
     return Inertia::render('User/Checkout'); // This should match your Checkout.vue component
 })->middleware(['auth', 'verified'])->name('checkout');
 
+Route::get('/points/redemption', function () {
+    return Inertia::render('User/Points_redemption'); // Ensure this matches your component's path
+})->middleware(['auth', 'verified'])->name('points.redemption');
+
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/loyalty-points', function () {
+        return Inertia::render('User/Loyalty_points'); // Ensure this matches your component's path
+    })->name('loyalty.points');
+});
+
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

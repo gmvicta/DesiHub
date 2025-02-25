@@ -48,7 +48,7 @@ onUnmounted(() => {
                             <!-- Logo -->
                             <div class="shrink-0 flex items-center">
                                 <Link :href="route('dashboard')">
-                                    <ApplicationLogo class="block h-9 w-auto fill-current text-gray-800" />
+                                <ApplicationLogo class="block h-9 w-auto fill-current text-gray-800" />
                                 </Link>
                             </div>
 
@@ -60,6 +60,10 @@ onUnmounted(() => {
                                 <NavLink :href="route('products')" :active="route().current('products')">
                                     Products
                                 </NavLink>
+                                <NavLink :href="route('points.redemption')"
+                                    :active="route().current('points.redemption')">
+                                    Points Redemption
+                                </NavLink>
                             </div>
                         </div>
 
@@ -67,28 +71,29 @@ onUnmounted(() => {
                             <!-- Clickable Cart Indicator -->
                             <div class="mr-4 flex items-center">
                                 <Link :href="route('cart')" class="text-gray-500 hover:text-gray-700">
-                                    Cart (0) <!-- Placeholder for cart count -->
+                                Cart (0) <!-- Placeholder for cart count -->
                                 </Link>
                                 <!-- Notification Dropdown -->
                                 <div class="ml-2 relative notification-dropdown">
-                                    <span @click="toggleNotificationDropdown" class="text-sm text-red-500 cursor-pointer">
+                                    <span @click="toggleNotificationDropdown"
+                                        class="text-sm text-red-500 cursor-pointer">
                                         Notifications
                                     </span>
-                                    <transition
-                                        enter-active-class="transition ease-out duration-200"
+                                    <transition enter-active-class="transition ease-out duration-200"
                                         enter-from-class="transform opacity-0 scale-95"
                                         enter-to-class="transform opacity-100 scale-100"
                                         leave-active-class="transition ease-in duration-75"
                                         leave-from-class="transform opacity-100 scale-100"
-                                        leave-to-class="transform opacity-0 scale-95"
-                                    >
-                                        <div v-if="showingNotificationDropdown" class="absolute right-0 mt-2 w-64 bg-white border border-gray-200 rounded-md shadow-lg z-10">
+                                        leave-to-class="transform opacity-0 scale-95">
+                                        <div v-if="showingNotificationDropdown"
+                                            class="absolute right-0 mt-2 w-64 bg-white border border-gray-200 rounded-md shadow-lg z-10">
                                             <div class="py-2">
                                                 <div v-if="notifications.length === 0" class="px-4 py-2 text-gray-500">
                                                     No notifications.
                                                 </div>
                                                 <div v-else>
-                                                    <div v-for="notification in notifications" :key="notification.id" class="px-4 py-2 text-gray-800 hover:bg-gray-100">
+                                                    <div v-for="notification in notifications" :key="notification.id"
+                                                        class="px-4 py-2 text-gray-800 hover:bg-gray-100">
                                                         <p class="text-sm">{{ notification.message }}</p>
                                                         <p class="text-xs text-gray-500">{{ notification.date }}</p>
                                                     </div>
@@ -123,6 +128,10 @@ onUnmounted(() => {
                                         <DropdownLink :href="route('purchases')" :active="route().current('purchases')">
                                             My Purchases
                                         </DropdownLink>
+                                        <DropdownLink :href="route('loyalty.points')" :active="route().current('loyalty.points')">
+                                            Loyalty Points
+                                        </DropdownLink>
+                                      
                                         <DropdownLink :href="route('logout')" method="post" as="button">
                                             Log Out
                                         </DropdownLink>
@@ -162,6 +171,10 @@ onUnmounted(() => {
                         <ResponsiveNavLink :href="route('products')" :active="route().current('products')">
                             Products
                         </ResponsiveNavLink>
+                        <ResponsiveNavLink :href="route('points.redemption')"
+                            :active="route().current('points.redemption')">
+                            Points Redemption
+                        </ResponsiveNavLink>
                     </div>
 
                     <!-- Responsive Settings Options -->
@@ -175,6 +188,12 @@ onUnmounted(() => {
 
                         <div class="mt-3 space-y-1">
                             <ResponsiveNavLink :href="route('profile.edit')"> Profile </ResponsiveNavLink>
+                            <ResponsiveNavLink :href="route('purchases')" :active="route().current('purchases')">
+                                My Purchases
+                            </ResponsiveNavLink>
+                            <ResponsiveNavLink :href="route('loyalty.points')" :active="route().current('loyalty.points')">
+                                Loyalty Points
+                            </ResponsiveNavLink>
                             <ResponsiveNavLink :href="route('logout')" method="post" as="button">
                                 Log Out
                             </ResponsiveNavLink>
@@ -197,3 +216,4 @@ onUnmounted(() => {
         </div>
     </div>
 </template>
+
